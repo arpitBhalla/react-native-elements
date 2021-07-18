@@ -5,9 +5,10 @@ import {
   ActivityIndicator,
   Keyboard,
   TextInput,
+  TextInputProps,
 } from 'react-native';
 import { renderNode } from '../helpers';
-import Input, { InputProps } from '../Input';
+import Input from '../Input';
 import Icon, { IconNode } from '../Icon';
 import { SearchBarBaseProps } from './SearchBar';
 import { Theme, ThemeProps } from '../config';
@@ -64,36 +65,9 @@ export const SearchBarAndroid = React.forwardRef<
     },
     ref: React.MutableRefObject<TextInput>
   ) => {
+    const root = React.useRef<TextInput>(null);
     const [hasFocus, setHasFocus] = React.useState(false);
     const [isEmpty, setIsEmpty] = React.useState(value ? value === '' : true);
-
-    const clear = () => {
-      ref.current.clear();
-      onChangeTextHandler('');
-      onClear();
-    };
-
-    const cancel = React.useCallback(() => {
-      ref.current.blur();
-      onCancel();
-    }, [onCancel, ref]);
-
-    const onFocusHandler: InputProps['onFocus'] = React.useCallback(
-      (event) => {
-        onFocus(event);
-        setIsEmpty(value === '');
-        setHasFocus(true);
-      },
-      [onFocus, value]
-    );
-
-    const onBlurHandler: InputProps['onBlur'] = React.useCallback(
-      (event) => {
-        onBlur(event);
-        setHasFocus(false);
-      },
-      [onBlur]
-    );
 
     const onChangeTextHandler = React.useCallback(
       (text: string) => {
@@ -103,10 +77,47 @@ export const SearchBarAndroid = React.forwardRef<
       [onChangeText]
     );
 
+    const onClearHandler = React.useCallback(() => {
+      root?.current?.clear();
+      onChangeTextHandler('');
+      onClear?.();
+    }, [onChangeTextHandler, onClear]);
+
+    const onCancelHandler = React.useCallback(() => {
+      root?.current?.blur();
+      onCancel?.();
+    }, [onCancel]);
+
+    const onFocusHandler = React.useCallback(
+      (event) => {
+        onFocus?.(event);
+        setIsEmpty(value === '');
+        setHasFocus(true);
+      },
+      [onFocus, value]
+    );
+
+    const onBlurHandler = React.useCallback(
+      (event) => {
+        onBlur?.(event);
+        setHasFocus(false);
+      },
+      [onBlur]
+    );
+
     React.useEffect(() => {
-      Keyboard.addListener('keyboardDidHide', cancel);
-      return () => Keyboard.removeListener('keyboardDidHide', cancel);
-    }, [cancel]);
+      Keyboard.addListener('keyboardDidHide', onCancelHandler);
+      return () => Keyboard.removeListener('keyboardDidHide', onCancelHandler);
+    }, [onCancelHandler]);
+
+    React.useImperativeHandle<TextInput, any>(ref, () => ({
+      focus: () => root?.current?.focus(),
+      clear: () => root?.current?.clear(),
+      setNativeProps: (args: TextInputProps) =>
+        root.current.setNativeProps(args),
+      isFocused: () => root.current.isFocused(),
+      blur: () => root.current.blur(),
+    }));
 
     const { style: loadingStyle, ...otherLoadingProps } = loadingProps;
 
@@ -129,7 +140,7 @@ export const SearchBarAndroid = React.forwardRef<
           onFocus={onFocusHandler}
           onBlur={onBlurHandler}
           onChangeText={onChangeTextHandler}
-          ref={ref}
+          ref={root}
           containerStyle={{ paddingHorizontal: 0 }}
           inputStyle={StyleSheet.flatten([styles.input, inputStyle])}
           inputContainerStyle={StyleSheet.flatten([
@@ -140,7 +151,7 @@ export const SearchBarAndroid = React.forwardRef<
             hasFocus
               ? renderNode(Icon, cancelIcon, {
                   ...defaultCancelIcon(theme as Theme),
-                  onPress: cancel,
+                  onPress: onCancelHandler,
                 })
               : renderNode(Icon, searchIcon, defaultSearchIcon(theme as Theme))
           }
@@ -161,7 +172,7 @@ export const SearchBarAndroid = React.forwardRef<
                 renderNode(Icon, clearIcon, {
                   ...defaultClearIcon(theme as Theme),
                   key: 'cancel',
-                  onPress: clear,
+                  onPress: onClearHandler,
                 })}
             </View>
           }

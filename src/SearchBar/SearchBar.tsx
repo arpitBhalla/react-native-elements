@@ -12,7 +12,7 @@ import {
 import { IconNode } from '../Icon';
 import { ThemeProps } from '../config';
 
-const SEARCHBAR_COMPONENTS = {
+const SearchBar_Components = {
   ios: SearchBarIOS,
   android: SearchBarAndroid,
   default: SearchBarDefault,
@@ -47,7 +47,7 @@ export const SearchBar = React.forwardRef<
   TextInput,
   SearchBarProps & Partial<ThemeProps<SearchBarProps>>
 >(({ platform, ...props }, ref) => {
-  const Component = SEARCHBAR_COMPONENTS[platform] || SearchBarDefault;
+  const Component = SearchBar_Components[platform] || SearchBarDefault;
 
   return <Component ref={ref} {...props} />;
 });

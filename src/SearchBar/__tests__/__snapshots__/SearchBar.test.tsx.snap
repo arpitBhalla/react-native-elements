@@ -408,6 +408,7 @@ exports[`SearchBar wrapper component should render an iOS SearchBar 1`] = `
         "right": null,
       }
     }
+    testID="RNE__SearchBar-cancelButtonContainer"
   >
     <View
       accessibilityRole="button"
@@ -427,27 +428,17 @@ exports[`SearchBar wrapper component should render an iOS SearchBar 1`] = `
       }
     >
       <View
-        style={
-          Array [
-            undefined,
-            undefined,
-          ]
-        }
+        style={Object {}}
         testID="RNE__SearchBar-cancelButton"
       >
         <Text
           style={
-            Array [
-              Object {
-                "color": "#007aff",
-                "fontSize": 18,
-                "padding": 8,
-                "textAlign": "center",
-              },
-              undefined,
-              undefined,
-              undefined,
-            ]
+            Object {
+              "color": "#007aff",
+              "fontSize": 18,
+              "padding": 8,
+              "textAlign": "center",
+            }
           }
         />
       </View>

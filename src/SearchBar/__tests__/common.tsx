@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react-native';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { renderWithTheme } from '../../../.ci/testHelper';
 import { Icon } from '../../Icon';
 
@@ -8,10 +8,14 @@ const WrapperTestID = 'RNE__SearchBar-wrapper';
 const SearchBarTestID = 'RNE__SearchBar';
 
 export function commonTests(SearchBar) {
-  // it('should render without issues', () => {
-  //   // const component = renderWithTheme(<SearchBar />);
-  //   // expect(component.toJSON()).toMatchSnapshot();
-  // });
+  beforeEach(() => {
+    jest.resetModules();
+  });
+
+  it('should render without issues', () => {
+    const component = renderWithTheme(<SearchBar />);
+    expect(component.toJSON()).toMatchSnapshot();
+  });
 
   describe('Handlers', () => {
     it('onClear', () => {
@@ -64,7 +68,6 @@ export function commonTests(SearchBar) {
           containerStyle={{ height: 70 }}
         />
       );
-
       const Wrapper = queryByTestId(WrapperTestID);
       const component = Wrapper.findByType(ActivityIndicator);
       expect(component.props.style.flex).toBe(1);
@@ -79,13 +82,15 @@ export function commonTests(SearchBar) {
         const component = Wrapper.findByType(Icon);
         expect(component.props.size).toBe(50);
       });
+
       it('custom searchIcon', () => {
         const { queryByTestId } = renderWithTheme(
           <SearchBar searchIcon={<View />} round />
         );
         const Wrapper = queryByTestId(WrapperTestID);
-        expect(Wrapper.findByType(View)).not.toBeNull();
+        expect(Wrapper.findAllByType(View)).not.toBeNull();
       });
+
       it('no searchIcon', () => {
         const { queryByTestId } = renderWithTheme(
           <SearchBar searchIcon={false} />
@@ -114,7 +119,7 @@ export function commonTests(SearchBar) {
           <SearchBar clearIcon={<View />} />
         );
         const Wrapper = queryByTestId(WrapperTestID);
-        expect(Wrapper.findByType(View)).not.toBeNull();
+        expect(Wrapper.findAllByType(View)).not.toBeNull();
       });
 
       it('no clearIcon', () => {
@@ -149,44 +154,58 @@ export function commonPlatformTest(SearchBar) {
             <SearchBar cancelButtonTitle="Annuler" />
           );
           const Wrapper = queryByTestId('RNE__SearchBar-cancelButton');
-          expect(Wrapper?.findByType(Text).children).toBe('Annuler');
+          expect(Wrapper?.findByType(Text).props.children).toBe('Annuler');
         });
-        //     it('cancelButtonProps', () => {
-        //       const { queryByTestId } = renderWithTheme(
-        //         <SearchBar
-        //           cancelButtonProps={{
-        //             color: 'black',
-        //             buttonStyle: { elevation: 0 },
-        //             buttonTextStyle: { fontSize: 12 },
-        //           }}
-        //         />
-        //       );
-        //       expect(component).not.toBeNull();
-        //       expect(component.toJSON()).toMatchSnapshot();
-        //     });
+
+        it('cancelButtonProps', () => {
+          const Props = {
+            color: 'black',
+            buttonStyle: { elevation: 0 },
+            buttonTextStyle: { fontSize: 12 },
+          };
+          const { queryByTestId } = renderWithTheme(
+            <SearchBar cancelButtonProps={Props} />
+          );
+          const Wrapper = queryByTestId('RNE__SearchBar-cancelButton');
+          expect(Wrapper.props.style).toMatchObject({
+            elevation: 0,
+          });
+          expect(Wrapper.findByType(Text).props.style).toMatchObject({
+            color: 'black',
+            fontSize: 12,
+          });
+        });
       });
-      //   describe('Disabled', () => {
-      //     it('cancelButtonProps', () => {
-      //       const { queryByTestId } = renderWithTheme(
-      //         <SearchBar cancelButtonProps={{ disabled: true }} />
-      //       );
-      //       expect(component).not.toBeNull();
-      //       expect(component.toJSON()).toMatchSnapshot();
-      //     });
-      //     it('cancelButtonProps disabled styles', () => {
-      //       const { queryByTestId } = renderWithTheme(
-      //         <SearchBar
-      //           cancelButtonProps={{
-      //             disabled: true,
-      //             buttonDisabledStyle: { backgroundColor: '#cdcdcd' },
-      //             buttonDisabledTextStyle: { color: '#ffffff' },
-      //           }}
-      //         />
-      //       );
-      //       expect(component).not.toBeNull();
-      //       expect(component.toJSON()).toMatchSnapshot();
-      //     });
-      //   });
+
+      describe('Disabled', () => {
+        it('cancelButtonProps', () => {
+          const { queryByTestId } = renderWithTheme(
+            <SearchBar cancelButtonProps={{ disabled: true }} />
+          );
+          const Wrapper = queryByTestId('RNE__SearchBar-cancelButtonContainer');
+          expect(
+            Wrapper.findByType(TouchableOpacity).props.disabled
+          ).toBeTruthy();
+        });
+        it('cancelButtonProps disabled styles', () => {
+          const { queryByTestId } = renderWithTheme(
+            <SearchBar
+              cancelButtonProps={{
+                disabled: true,
+                buttonDisabledStyle: { backgroundColor: '#cdcdcd' },
+                buttonDisabledTextStyle: { color: '#ffffff' },
+              }}
+            />
+          );
+          const Wrapper = queryByTestId('RNE__SearchBar-cancelButton');
+          expect(Wrapper.props.style).toMatchObject({
+            backgroundColor: '#cdcdcd',
+          });
+          expect(Wrapper.findByType(Text).props.style).toMatchObject({
+            color: '#ffffff',
+          });
+        });
+      });
     });
   });
 }

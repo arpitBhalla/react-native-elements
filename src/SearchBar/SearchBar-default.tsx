@@ -60,27 +60,46 @@ export const SearchBarDefault = React.forwardRef<
     },
     ref: React.MutableRefObject<TextInput>
   ) => {
+    const root = React.useRef<TextInput>(null);
     const [isEmpty, setIsEmpty] = React.useState(value ? value === '' : true);
 
-    const clear = () => {
-      ref.current.clear();
+    const onChangeTextHandler = React.useCallback(
+      (text: string) => {
+        onChangeText(text);
+        setIsEmpty(text === '');
+      },
+      [onChangeText]
+    );
+
+    const onClearHandler = React.useCallback(() => {
+      root.current.clear();
       onChangeTextHandler('');
       onClear();
-    };
+    }, [onChangeTextHandler, onClear]);
 
-    const onFocusHandler: TextInputProps['onFocus'] = (event) => {
-      onFocus(event);
-      setIsEmpty(value === '');
-    };
+    const onFocusHandler = React.useCallback(
+      (event) => {
+        onFocus(event);
+        setIsEmpty(value === '');
+      },
+      [onFocus, value]
+    );
 
-    const onBlurHandler: TextInputProps['onBlur'] = (event) => {
-      onBlur(event);
-    };
+    const onBlurHandler = React.useCallback(
+      (event) => {
+        onBlur(event);
+      },
+      [onBlur]
+    );
 
-    const onChangeTextHandler = (text: string) => {
-      onChangeText(text);
-      setIsEmpty(text === '');
-    };
+    React.useImperativeHandle<TextInput, any>(ref, () => ({
+      focus: () => root?.current?.focus(),
+      clear: () => root?.current?.clear(),
+      setNativeProps: (args: TextInputProps) =>
+        root.current.setNativeProps(args),
+      isFocused: () => root.current.isFocused(),
+      blur: () => root.current.blur(),
+    }));
 
     const { style: loadingStyle, ...otherLoadingProps } = loadingProps;
 
@@ -111,7 +130,7 @@ export const SearchBarDefault = React.forwardRef<
           onFocus={onFocusHandler}
           onBlur={onBlurHandler}
           onChangeText={onChangeTextHandler}
-          ref={ref}
+          ref={root}
           placeholderTextColor={placeholderTextColor}
           inputStyle={StyleSheet.flatten([
             {
@@ -158,7 +177,7 @@ export const SearchBarDefault = React.forwardRef<
                 renderNode(Icon, clearIcon, {
                   ...defaultClearIcon(theme as Theme),
                   key: 'cancel',
-                  onPress: clear,
+                  onPress: onClearHandler,
                 })}
             </View>
           }

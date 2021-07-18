@@ -11,8 +11,9 @@ import {
   StyleProp,
   TextStyle,
   TextInput,
+  TextInputProps,
 } from 'react-native';
-import Input, { InputProps } from '../Input';
+import Input from '../Input';
 import Icon from '../Icon';
 import { renderNode } from '../helpers';
 import { SearchBarBaseProps } from './SearchBar';
@@ -75,49 +76,68 @@ export const SearchBarIOS = React.forwardRef<
     },
     ref: React.MutableRefObject<TextInput>
   ) => {
+    const root = React.useRef<TextInput>(null);
     const [hasFocus, setHasFocus] = React.useState(false);
     const [isEmpty, setIsEmpty] = React.useState(value ? value === '' : true);
     const [cancelButtonWidth, setCancelButtonWidth] = React.useState<
       number | null
     >(null);
 
-    const clear = () => {
-      ref.current.clear();
+    const onChangeTextHandler = React.useCallback(
+      (text: string) => {
+        onChangeText(text);
+        setIsEmpty(text === '');
+      },
+      [onChangeText]
+    );
+
+    const onClearHandler = React.useCallback(() => {
+      root.current.clear();
       onChangeTextHandler('');
       onClear();
-    };
+    }, [onChangeTextHandler, onClear]);
 
-    const cancel = () => {
+    const onCancelHandler = React.useCallback(() => {
       onChangeTextHandler('');
       if (showCancel) {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setHasFocus(false);
       }
       setTimeout(() => {
-        ref.current.blur();
+        root.current.blur();
         onCancel();
       }, 0);
-    };
+    }, [onCancel, onChangeTextHandler, showCancel]);
 
-    const onFocusHandler: InputProps['onFocus'] = (event) => {
-      onFocus(event);
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setHasFocus(true);
-      setIsEmpty(value === '');
-    };
-
-    const onBlurHandler: InputProps['onBlur'] = (event) => {
-      onBlur(event);
-      if (!showCancel) {
+    const onFocusHandler = React.useCallback(
+      (event) => {
+        onFocus(event);
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setHasFocus(false);
-      }
-    };
+        setHasFocus(true);
+        setIsEmpty(value === '');
+      },
+      [onFocus, value]
+    );
 
-    const onChangeTextHandler = (text: string) => {
-      onChangeText(text);
-      setIsEmpty(text === '');
-    };
+    const onBlurHandler = React.useCallback(
+      (event) => {
+        onBlur(event);
+        if (!showCancel) {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          setHasFocus(false);
+        }
+      },
+      [onBlur, showCancel]
+    );
+
+    React.useImperativeHandle<TextInput, any>(ref, () => ({
+      focus: () => root?.current?.focus(),
+      clear: () => root?.current?.clear(),
+      setNativeProps: (args: TextInputProps) =>
+        root.current.setNativeProps(args),
+      isFocused: () => root.current.isFocused(),
+      blur: () => root.current.blur(),
+    }));
 
     const { style: loadingStyle, ...otherLoadingProps } = loadingProps || {
       style: {},
@@ -148,7 +168,7 @@ export const SearchBarIOS = React.forwardRef<
           onFocus={onFocusHandler}
           onBlur={onBlurHandler}
           onChangeText={onChangeTextHandler}
-          ref={ref}
+          ref={root}
           inputStyle={StyleSheet.flatten([styles.input, inputStyle])}
           containerStyle={{
             paddingHorizontal: 0,
@@ -182,7 +202,7 @@ export const SearchBarIOS = React.forwardRef<
                 renderNode(Icon, clearIcon, {
                   ...defaultClearIcon(theme),
                   key: 'cancel',
-                  onPress: clear,
+                  onPress: onClearHandler,
                 })}
             </View>
           }
@@ -200,28 +220,33 @@ export const SearchBarIOS = React.forwardRef<
               right: hasFocus ? 0 : cancelButtonWidth && -cancelButtonWidth,
             },
           ])}
-          onLayout={(event) =>
-            setCancelButtonWidth(event.nativeEvent.layout.width)
-          }
+          onLayout={(event) => {
+            console.log(event.nativeEvent.layout.width);
+            setCancelButtonWidth(event.nativeEvent.layout.width);
+          }}
+          testID="RNE__SearchBar-cancelButtonContainer"
         >
           <TouchableOpacity
             accessibilityRole="button"
-            onPress={cancel}
+            onPress={onCancelHandler}
             disabled={buttonDisabled}
             {...otherCancelButtonProps}
           >
             <View
+              style={StyleSheet.flatten([
+                buttonStyle,
+                buttonDisabled && buttonDisabledStyle,
+              ])}
               testID="RNE__SearchBar-cancelButton"
-              style={[buttonStyle, buttonDisabled && buttonDisabledStyle]}
             >
               <Text
-                style={[
+                style={StyleSheet.flatten([
                   styles.buttonTextStyle,
                   buttonColor && { color: buttonColor },
                   buttonTextStyle,
                   buttonDisabled &&
                     (buttonDisabledTextStyle || styles.buttonTextDisabled),
-                ]}
+                ])}
               >
                 {cancelButtonTitle}
               </Text>
