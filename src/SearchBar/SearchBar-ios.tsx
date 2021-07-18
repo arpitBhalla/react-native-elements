@@ -53,26 +53,26 @@ export const SearchBarIOS = React.forwardRef<
   (
     {
       theme,
-      cancelButtonProps,
-      cancelButtonTitle,
-      clearIcon,
+      cancelButtonProps = {},
+      cancelButtonTitle = 'Cancel',
       containerStyle,
       leftIconContainerStyle,
       rightIconContainerStyle,
       inputContainerStyle,
       inputStyle,
       placeholderTextColor,
-      showLoading,
-      loadingProps,
-      searchIcon,
-      showCancel,
-      onCancel,
-      onClear,
-      onChangeText,
-      onFocus,
-      onBlur,
-      value,
-      ...attributes
+      showLoading = false,
+      loadingProps = {},
+      searchIcon = { name: 'ios-search' },
+      clearIcon = { name: 'ios-close-circle' },
+      showCancel = false,
+      onCancel = () => null,
+      onClear = () => null,
+      onChangeText = () => null,
+      onFocus = () => null,
+      onBlur = () => null,
+      value = '',
+      ...props
     },
     ref: React.MutableRefObject<TextInput>
   ) => {
@@ -150,7 +150,7 @@ export const SearchBarIOS = React.forwardRef<
       buttonDisabledStyle,
       buttonDisabledTextStyle,
       ...otherCancelButtonProps
-    } = cancelButtonProps || {};
+    } = cancelButtonProps;
 
     return (
       <View
@@ -164,7 +164,7 @@ export const SearchBarIOS = React.forwardRef<
         <Input
           testID="RNE__SearchBar"
           renderErrorMessage={false}
-          {...attributes}
+          {...props}
           onFocus={onFocusHandler}
           onBlur={onBlurHandler}
           onChangeText={onChangeTextHandler}
@@ -182,10 +182,10 @@ export const SearchBarIOS = React.forwardRef<
             inputContainerStyle,
           ])}
           leftIcon={renderNode(Icon, searchIcon, defaultSearchIcon(theme))}
-          leftIconContainerStyle={StyleSheet.flatten([
+          leftIconContainerStyle={[
             styles.leftIconContainerStyle,
             leftIconContainerStyle,
-          ])}
+          ]}
           placeholderTextColor={
             placeholderTextColor || theme?.colors?.platform?.ios?.grey
           }
@@ -221,7 +221,6 @@ export const SearchBarIOS = React.forwardRef<
             },
           ])}
           onLayout={(event) => {
-            console.log(event.nativeEvent.layout.width);
             setCancelButtonWidth(event.nativeEvent.layout.width);
           }}
           testID="RNE__SearchBar-cancelButtonContainer"
