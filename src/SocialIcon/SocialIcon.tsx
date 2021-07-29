@@ -3,16 +3,17 @@ import {
   View,
   StyleSheet,
   Platform,
-  TouchableHighlight,
+  Pressable,
   ActivityIndicator,
   ViewStyle,
   StyleProp,
   TextStyle,
+  PressableProps,
 } from 'react-native';
 import Icon from '../Icon';
 import Text from '../Text';
 import fonts from '../config/fonts';
-import { RneFunctionComponent } from '../helpers';
+import { androidRipple, RneFunctionComponent } from '../helpers';
 
 const colors = {
   'github-alt': '#000000',
@@ -85,6 +86,9 @@ export type SocialMediaType =
 export type SocialIconProps = {
   /** Type of button. */
   Component?: typeof React.Component;
+
+  /** Props for Pressable */
+  pressableProps?: PressableProps;
 
   /** Social media type. */
   type?: SocialMediaType;
@@ -163,22 +167,27 @@ export const SocialIcon: RneFunctionComponent<SocialIconProps> = ({
   loading,
   onLongPress,
   onPress,
-  Component = onPress || onLongPress ? TouchableHighlight : View,
+  Component = onPress || onLongPress ? Pressable : View,
   raised = true,
   small,
   style,
   title,
   type,
   underlayColor,
+  pressableProps,
   ...attributes
 }) => {
   const shouldShowExpandedButton = button && title;
 
   return (
     <Component
+      {...pressableProps}
       testID="RNE_SocialIcon"
       {...attributes}
       underlayColor={light ? 'white' : underlayColor || (type && colors[type])}
+      android_ripple={androidRipple(
+        light ? 'white' : underlayColor || (type && colors[type])
+      )}
       onLongPress={disabled ? null : onLongPress}
       onPress={disabled ? null : onPress}
       disabled={disabled}
