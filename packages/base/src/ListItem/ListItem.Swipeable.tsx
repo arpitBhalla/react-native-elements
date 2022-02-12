@@ -37,7 +37,10 @@ export type ListItemSwipeableProps = ListItemBaseProps & {
   onRightSwipe?: () => any;
 };
 
-/** We offer a special kind of ListItem which is swipeable from both ends and allows users select an event. */
+/**
+ *  We offer a special kind of ListItem which is swipeable from both ends and allows users select an event.
+ *
+ **/
 export const ListItemSwipeable: RneFunctionComponent<
   ListItemSwipeableProps
 > = ({
