@@ -3,10 +3,10 @@ on:
   push:
     branches:
       - "next"
-    paths-ignore:
-      - "website/**"
-      - "example/**"
-      - ".github/**"
+#     paths-ignore:
+#       - "website/**"
+#       - "example/**"
+#       - ".github/**"
 jobs:
 #   checks:
 #     uses: ./.github/workflows/test.yml
