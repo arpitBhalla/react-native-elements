@@ -8,10 +8,10 @@ on:
       - "example/**"
       - ".github/**"
 jobs:
-  checks:
-    uses: ./.github/workflows/test.yml
+#   checks:
+#     uses: ./.github/workflows/test.yml
   build:
-    needs: checks
+#     needs: checks
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
