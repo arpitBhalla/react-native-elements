@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Button, ButtonGroup, withTheme, Text } from '@rneui/themed';
+import { Stack } from '@rneui/layout';
 import { Header, SubHeader } from '../components/header';
 import { LinearGradient } from '../components/LinearGradient';
 
@@ -18,6 +19,11 @@ const Buttons: React.FunctionComponent<ButtonsComponentProps> = () => {
           <SubHeader title="Basic Buttons" />
           <View style={{ alignItems: 'center' }}>
             <View style={styles.buttonsContainer}>
+              <Stack>
+                <Button title={'Hey'} />
+                <Button title={'Hey'} />
+                <Button title={'Hey'} />
+              </Stack>
               <Button
                 title={'React Native Elements'}
                 containerStyle={{
