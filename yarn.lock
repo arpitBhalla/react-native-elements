@@ -3583,6 +3583,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@rneui/layout@workspace:packages/layout":
+  version: 0.0.0-use.local
+  resolution: "@rneui/layout@workspace:packages/layout"
+  languageName: unknown
+  linkType: soft
+
 "@rneui/themed@workspace:packages/themed":
   version: 0.0.0-use.local
   resolution: "@rneui/themed@workspace:packages/themed"
