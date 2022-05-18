@@ -3,19 +3,29 @@ import { View, FlexStyle } from 'react-native';
 import { makeStyles } from '../system/makeStyles';
 
 export interface StackProps {
-  /* */
+  /**
+   * @default flex-start
+   */
   align?: FlexStyle['alignItems'];
-  /*  */
+  /**
+   * @default flex-start
+   */
   justify?: FlexStyle['justifyContent'];
   /**
-   * @default column
+   * @default false
    */
-  dir?: 'row' | 'column';
-  /*  */
-  spacing?: 'sm' | 'md' | 'lg' | number;
-  /*  */
+  row?: boolean;
+  /**
+   * @default 0
+   */
+  spacing?: number;
+  /**
+   * @default false
+   */
   reverse?: boolean;
-  /*  */
+  /**
+   *
+   */
   children?: React.ReactNode;
 }
 
@@ -42,15 +52,27 @@ export const Stack = ({ children, ...rest }: StackProps): JSX.Element => {
   );
 };
 
-const useStyles = makeStyles((props: StackProps) => ({
-  container: {
-    display: 'flex',
-    flexDirection: (props.dir +
-      (props.reverse ? '-reverse' : '')) as FlexStyle['flexDirection'],
-    alignItems: props.align,
-    justifyContent: props.justify,
-  },
-  childProps: {
-    padding: props.spacing,
-  },
-}));
+const useStyles = makeStyles(
+  ({
+    align = 'flex-start',
+    row = false,
+    justify = 'flex-start',
+    spacing = 0,
+    reverse = false,
+  }: StackProps) => {
+    const flexDirection = ((row ? 'row' : 'column') +
+      (reverse ? '-reverse' : '')) as FlexStyle['flexDirection'];
+
+    return {
+      container: {
+        display: 'flex',
+        flexDirection: flexDirection,
+        alignItems: align,
+        justifyContent: justify,
+      },
+      childProps: {
+        padding: spacing,
+      },
+    };
+  }
+);

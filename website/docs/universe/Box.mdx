@@ -1,52 +1,32 @@
-# @rneui/layout
+---
+id: box
+title: Box
+---
 
-> This Component is experimental and may change, **do not use** in production until stable release
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
-## Installation
-
-```bash
-npm i @rneui/layout
-```
-
-```bash
-yarn add @rneui/layout
-```
-
-## Stack
-
-### Stack Usage
+## Import
 
 ```tsx
-<Stack row>
-  <Button>Hey</Button>
-  <Button>Hello</Button>
-</Stack>
+import { Box } from "@rneui/themed";
 ```
 
-### Stack Props
-
-| Name      | Type                                                                                          | Default      | Description |
-| --------- | --------------------------------------------------------------------------------------------- | ------------ | ----------- |
-| `align`   | FlexAlignType                                                                                 | `flex-start` |             |
-| `justify` | `center` or `flex-start` or `flex-end` or `space-between` or `space-around` or `space-evenly` | `flex-start` |             |
-| `reverse` | boolean                                                                                       | `false`      |             |
-| `row`     | boolean                                                                                       | `false`      |             |
-| `spacing` | number                                                                                        | `0`          |             |
-
-## Box
-
-### Box Usage
+## Usage
 
 ```tsx live
-<Box m={3}>
-  <Button>Hey</Button>
-</Box>
+<Box spacing="md"></Box>
 ```
 
-### Box Props
+## Props
+
+<div class='table-responsive'>
 
 | Name                | Type                 | Default | Description |
 | ------------------- | -------------------- | ------- | ----------- |
+| `bgColor`           | ColorValue           |         |             |
+| `h`                 | number               |         |             |
+| `height`            | number               |         |             |
 | `m`                 | `string` or `number` |         |             |
 | `margin`            | `string` or `number` |         |             |
 | `marginBottom`      | `string` or `number` |         |             |
@@ -75,7 +55,7 @@ yarn add @rneui/layout
 | `pt`                | `string` or `number` |         |             |
 | `px`                | `string` or `number` |         |             |
 | `py`                | `string` or `number` |         |             |
+| `w`                 | number               |         |             |
+| `width`             | number               |         |             |
 
-## Contribution
-
-Made by [Arpit Bhalla](https://github.com/arpitbhalla)
+</div>
