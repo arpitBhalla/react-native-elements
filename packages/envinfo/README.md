@@ -23,17 +23,3 @@ npx @rneui/envinfo
 - @rneui/themed@latest
 - react-native-elements@^3.4.2
 ```
-
-- type: textarea
-  attributes:
-  label: Your environment 🌎
-  description: Run `npx @rneui/envinfo` and paste the results.
-  value: |
-  <details>
-  <summary>`npx @rneui/envinfo`</summary>
-
-        ```
-          Output from `npx @rneui/envinfo` goes here.
-        ```
-
-  </details>
