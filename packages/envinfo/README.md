@@ -1,6 +1,14 @@
 # @rneui/envinfo
 
-Prints information about the current environment relevant to packages to the console.
+Logs information about the current environment relevant to packages to the console.
+
+## Usage
+
+```bash
+npx @rneui/envinfo
+```
+
+## Output
 
 ```md
 ## Global Dependencies:
