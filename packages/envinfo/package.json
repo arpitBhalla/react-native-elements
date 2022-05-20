@@ -1,0 +1,18 @@
+{
+  "name": "@rneui/envinfo",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "description": "Logs infos about the environment for React Native Elements",
+  "version": "1.0.0",
+  "bin": "./envinfo.js",
+  "dependencies": {},
+  "author": "The RNE Core Team",
+  "contributors": [
+    {
+      "name": "Arpit Bhalla",
+      "url": "https://github.com/arpitbhalla"
+    }
+  ]
+}
