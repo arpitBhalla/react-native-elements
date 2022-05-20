@@ -18,15 +18,12 @@ const run = (cmd) => {
 
 const readManifest = (manifestPath) => {
   if (!fs.existsSync(manifestPath)) {
-    throw new Error('No package.json found');
+    return {};
   }
   return JSON.parse(fs.readFileSync(manifestPath)) || {};
 };
 
 const getManifestDeps = (manifestPath) => {
-  if (!fs.existsSync(manifestPath)) {
-    throw new Error('No package.json found');
-  }
   try {
     const { dependencies, devDependencies } = readManifest(manifestPath);
     return { ...dependencies, ...devDependencies };
@@ -69,18 +66,22 @@ function main(pkgs) {
   const npmGlobalDeps = getGlobalDeps(pkgs);
   const npmLocalDeps = getLocalDeps(exp);
 
-  let log = '';
+  let log = 'React Native Elements Env Info\n\n';
+  log += '## Global Dependencies:\n';
   if (npmGlobalDeps.length > 0) {
-    log += '\n ## Global Dependencies:\n';
     npmGlobalDeps.forEach((dep) => {
       log += `\n - ${dep}`;
     });
+  } else {
+    log += '\n   No related dependency found';
   }
+  log += '\n\n## Local Dependencies:\n';
   if (npmLocalDeps.length > 0) {
-    log += '\n\n ## Local Dependencies:\n';
     npmLocalDeps.forEach((dep) => {
       log += `\n - ${dep}`;
     });
+  } else {
+    log += '\n   No related dependency found';
   }
   log += '\n';
   // eslint-disable-next-line no-console
