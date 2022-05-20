@@ -5,9 +5,11 @@
   },
   "license": "MIT",
   "description": "Logs information about the current environment relevant to React Native Elements",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "bin": "./envinfo.js",
-  "dependencies": {},
+  "dependencies": {
+    "glob": "^8.0.3"
+  },
   "author": "The RNE Core Team",
   "contributors": [
     {
