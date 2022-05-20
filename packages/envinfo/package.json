@@ -10,6 +10,11 @@
   "dependencies": {
     "glob": "^8.0.3"
   },
+  "keywords": [
+    "rneui",
+    "envinfo",
+    "react-native-elements"
+  ],
   "author": "The RNE Core Team",
   "contributors": [
     {
