@@ -1,4 +1,4 @@
-# @rneui/env
+# @rneui/envinfo
 
 Prints information about the current environment relevant to packages to the console.
 
