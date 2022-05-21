@@ -88,4 +88,13 @@ function main(pkgs) {
   console.log(log);
 }
 
-main(['@rneui/*', 'react-native-elements', 'expo', 'expo-cli', 'react-native']);
+main([
+  '@types/react',
+  '@types/react-native',
+  '@rneui/*',
+  'react-native-elements',
+  'expo',
+  'expo-cli',
+  'react',
+  'react-native',
+]);
