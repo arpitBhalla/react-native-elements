@@ -49,12 +49,8 @@
     "url": "https://opencollective.com/react-native-elements",
     "logo": "https://opencollective.com/react-native-elements/logo.txt"
   },
-  "peerDependencies": {
-    "@rneui/base": "4.0.0-rc.4"
-  },
-  "devDependencies": {
-    "@rneui/base": "4.0.0-rc.4"
-  },
+  "peerDependencies": {},
+  "devDependencies": {},
   "jest": {
     "displayName": "@rneui/themed",
     "preset": "react-native",
