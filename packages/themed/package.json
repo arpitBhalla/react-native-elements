@@ -36,7 +36,8 @@
     "test:ci": "jest --runInBand",
     "test:watch": "jest --watch",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "clean-install": "rimraf node_modules && yarn"
+    "clean-install": "rimraf node_modules && yarn",
+    "clean": "rm -rf dist"
   },
   "author": "RNE Core Team",
   "license": "MIT",

@@ -22,7 +22,7 @@ const combineByStyles = (propName = '') => {
 
 const ThemedComponent = (
   WrappedComponent: any,
-  themeKey?: string,
+  themeKey: string,
   displayName?: string
 ) => {
   return Object.assign(

@@ -1,13 +1,10 @@
 {
-  "name": "@rneui/theming",
+  "name": "@rneui/styling",
   "version": "0.0.0-alpha.0",
   "description": "Custom Theming for React Native apps",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "prepublish": "tsc",
-  "files": [
-    "dist"
-  ],
   "publishConfig": {
     "access": "public"
   },
@@ -24,7 +21,8 @@
   "scripts": {
     "build": "tsc --composite false",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "clean-install": "rimraf node_modules && yarn"
+    "clean-install": "rimraf node_modules && yarn",
+    "clean": "rm *.js *.d.t"
   },
   "author": "RNE Core team",
   "contributors": [
