@@ -3572,6 +3572,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@rneui/styling@workspace:packages/styling":
+  version: 0.0.0-use.local
+  resolution: "@rneui/styling@workspace:packages/styling"
+  dependencies:
+    deepmerge: ^4.2.2
+  languageName: unknown
+  linkType: soft
+
 "@rneui/themed@workspace:packages/themed":
   version: 0.0.0-use.local
   resolution: "@rneui/themed@workspace:packages/themed"
@@ -3579,14 +3587,6 @@ __metadata:
     "@rneui/base": 4.0.0-rc.2
   peerDependencies:
     "@rneui/base": 4.0.0-rc.2
-  languageName: unknown
-  linkType: soft
-
-"@rneui/theming@workspace:packages/theming":
-  version: 0.0.0-use.local
-  resolution: "@rneui/theming@workspace:packages/theming"
-  dependencies:
-    deepmerge: ^4.2.2
   languageName: unknown
   linkType: soft
 
