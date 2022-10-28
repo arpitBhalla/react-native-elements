@@ -370,13 +370,12 @@ export const Button: RneFunctionComponent<ButtonProps> = ({
             })}
           {/* Title for Button, hide while loading */}
           {!loading &&
-            React.Children.toArray(children).map((child, index) => (
+            React.Children.map(children, (child, index) => (
               <React.Fragment key={index}>
                 {typeof child === 'string'
                   ? renderNode(Text, child, {
-                      style: {
-                        ...titleStyle,
-                      },
+                      style: titleStyle,
+                      theme,
                       ...titleProps,
                     })
                   : child}
