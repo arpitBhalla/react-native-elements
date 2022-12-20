@@ -4604,6 +4604,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rneui/snackbar@workspace:packages/rneui-snackbar":
+  version: 0.0.0-use.local
+  resolution: "@rneui/snackbar@workspace:packages/rneui-snackbar"
+  languageName: unknown
+  linkType: soft
+
 "@rneui/themed@workspace:packages/themed":
   version: 0.0.0-use.local
   resolution: "@rneui/themed@workspace:packages/themed"

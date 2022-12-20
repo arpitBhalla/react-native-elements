@@ -5,6 +5,7 @@ import AppLoading from './src/components/AppLoading';
 import { cacheImages, cacheFonts } from './src/helpers/AssetsCaching';
 import vectorFonts from './src/helpers/vector-fonts';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import '@rneui/snackbar';
 
 export default () => {
   const [isReady, setIsReady] = useState(false);
@@ -71,5 +72,7 @@ const theme = createTheme({
         fontSize: 80,
       },
     },
+    BottomSheet: {},
+    Snackbar: { open: false },
   },
 });
