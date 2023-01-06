@@ -2,7 +2,19 @@ import { Avatar } from '@rneui/base/dist/Avatar';
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-const AvatarGroup = ({ size = 32, rounded = true, children, max }) => {
+export interface AvatarGroupProps {
+  size?: number;
+  rounded?: boolean;
+  children: any;
+  max: any;
+}
+
+const AvatarGroup = ({
+  size = 32,
+  rounded = true,
+  children,
+  max,
+}: AvatarGroupProps) => {
   const childCount = React.Children.count(children);
   return (
     <View style={styles.container}>
